@@ -1,23 +1,32 @@
 'use strict'
 
-const paintSavedLists = array => {
-  createdListsContainer.innerHTML = '';
-  array.map(obj => list.innerHTML = createListDOM(obj.title, obj.id).innerHTML);
-  // const objIndex = array.findIndex(obj => obj.id);
-  const lastIndex = array.length - 1;
-  for (let obj of array) {
-    const objIndex = array.indexOf(obj);
-    console.log(objIndex);
+const resetInnerHTML = item => item.innerHTML = '';
+const paintSavedLists = () => listArray.map(obj => list.innerHTML = createListDOM(obj.title, obj.id).innerHTML);
+
+const handlePaintLists = () => {
+  resetInnerHTML(createdListsContainer);
+  paintSavedLists();
+  removeSidesBtns();
+}
+
+const removeSidesBtns = () => {
+  const allLists = document.querySelectorAll('.app-list');
+  const lastIndex = listArray.length -1;
+  const firstList = allLists.item(0);
+  const lastList = allLists.item(lastIndex);
+  const showAllBtns = document.querySelectorAll('.js-btn-lft, .js-btn-rgt').forEach(btn => btn.classList.remove('hidden'));
+
+  for (let obj of listArray) {
+    const objIndex = listArray.indexOf(obj);
     if (objIndex === 0) {
-      const btnLeft = document.querySelector('.js-btn-lft');
+      const btnLeft = firstList.querySelector('.js-btn-lft');
       btnLeft.classList.add('hidden');
     }
     if (objIndex === lastIndex) {
-      const btnRight = document.querySelector('.js-btn-rgt');
+      const btnRight = lastList.querySelector('.js-btn-rgt');
       btnRight.classList.add('hidden');
     }
   }
-  console.log(lastIndex);
 }
 
 const updateListArray = e => {
@@ -41,23 +50,27 @@ const findObj = e => {
 
 const removeList = e => {
   const listIndex = findIndex(e)
-  // e.currentTarget.parentElement.parentElement.parentElement.parentElement.parentElement.id;
-  // const listIndex = listArray.findIndex(obj => obj.id === listId)
   listArray.splice(listIndex, 1)
   setListToLocal()
-  paintSavedLists(listArray)
+  handlePaintLists()
 }
 
 const moveToLeft = e => {
   const list = findObj(e)
   const listIndex = findIndex(e);
 
-  // const reversedItems = listArray.slice(listIndex-1, listIndex+1).reverse();
-  // const newArray = listArray.splice(listIndex-1, 2, reversedItems);
   listArray.splice(listIndex, 1);
   listArray.splice(listIndex - 1, 0, list);
-  paintSavedLists(listArray)
-  console.log(listArray);
+  handlePaintLists()
 }
 
-window.addEventListener('load', paintSavedLists(listArray));
+const moveToRight = e => {
+  const list = findObj(e)
+  const listIndex = findIndex(e);
+
+  listArray.splice(listIndex, 1);
+  listArray.splice(listIndex + 1, 0, list);
+  handlePaintLists(listArray)
+}
+
+window.addEventListener('load', handlePaintLists());

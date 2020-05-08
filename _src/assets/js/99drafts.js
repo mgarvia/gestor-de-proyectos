@@ -79,3 +79,20 @@
   //   </div>
   // </div>
 
+
+  // const createNewList = e => newListName.value !== '' ? createListDOM(newListName.value, listCounter) : e.preventDefault();
+
+    // list LISTENERS
+  // listHeaderInput.addEventListener('keyup', updateListArray);
+  // listHeaderBtnRemove.addEventListener('click', removeList);
+  // listHeaderBtnLeft.addEventListener('click', moveToLeft);
+  // listHeaderBtnRight.addEventListener('click', moveToRight);
+  // listFooter.addEventListener('click', nameNewCard);
+
+  // cardNameBtnsAdd.addEventListener('click', addNewCard);
+  // cardNameBtnsRemove.addEventListener('click', hideNameNewCard);
+
+  // const hideCreateList = () => {
+//   newListBtn.classList.remove('hidden');
+//   createListBox.classList.add('hidden');
+// }
