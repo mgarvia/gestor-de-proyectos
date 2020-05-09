@@ -21,7 +21,11 @@ const getCounterFromLocal = () => {
   } else {
     return createdListsCounter = 100;
   }
+
 }
 
 let listArray = getListFromLocal();
 let listCounter = getCounterFromLocal();
+
+let cardCounter = 100;
+// let cardArray = [];

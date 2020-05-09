@@ -1,14 +1,5 @@
 'use strict'
 
-const resetInnerHTML = item => item.innerHTML = '';
-const paintSavedLists = () => listArray.map(obj => list.innerHTML = createListDOM(obj.title, obj.id).innerHTML);
-
-const handlePaintLists = () => {
-  resetInnerHTML(createdListsContainer);
-  paintSavedLists();
-  removeSidesBtns();
-}
-
 const removeSidesBtns = () => {
   const allLists = document.querySelectorAll('.app-list');
   const lastIndex = listArray.length -1;
@@ -30,26 +21,26 @@ const removeSidesBtns = () => {
 }
 
 const updateListArray = e => {
-  const listId = e.currentTarget.parentElement.parentElement.parentElement.id
+  const listId = findItem(e, '.app-list').id;
   const listObj = listArray.find(obj => obj.id === listId)
   listObj.title = e.currentTarget.value;
   setListToLocal()
 }
 
 const findIndex = e => {
-  const listId = e.currentTarget.parentElement.parentElement.parentElement.parentElement.parentElement.id;
+  const listId = findItem(e, '.app-list').id;
   const listIndex = listArray.findIndex(obj => obj.id === listId);
   return listIndex
 }
 
 const findObj = e => {
-  const listId = e.currentTarget.parentElement.parentElement.parentElement.parentElement.parentElement.id;
+  const listId = findItem(e, '.app-list').id;
   const list = listArray.find(obj => obj.id === listId);
   return list
 }
 
 const removeList = e => {
-  const listIndex = findIndex(e)
+  const listIndex = findIndex(e);
   listArray.splice(listIndex, 1)
   setListToLocal()
   handlePaintLists()
@@ -61,7 +52,7 @@ const moveToLeft = e => {
 
   listArray.splice(listIndex, 1);
   listArray.splice(listIndex - 1, 0, list);
-  handlePaintLists()
+  handlePaintLists();
 }
 
 const moveToRight = e => {
@@ -72,5 +63,3 @@ const moveToRight = e => {
   listArray.splice(listIndex + 1, 0, list);
   handlePaintLists(listArray)
 }
-
-window.addEventListener('load', handlePaintLists());

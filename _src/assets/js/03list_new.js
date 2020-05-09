@@ -3,8 +3,13 @@
 // list_new
 
 const toggleNewList = () => listBoxes.forEach(box => box.classList.toggle('hidden'));
-const resetListName = () => newListName.value = '';
+const resetInput = input => input.value = '';
 const updateListCounter = () => listCounter += 1;
+
+const listName = () => {
+  toggleNewList();
+  resetInput(newListName);
+}
 
 const createListDOM = (title, id) => {
   // list CONTAINER
@@ -155,7 +160,7 @@ const createListDOM = (title, id) => {
   return list
 }
 
-const addListenersToList = (list) => {
+const addListenersToList = list => {
   const listHeaderInput = list.querySelector('.app-list-input');
   const listHeaderBtnRemove = list.querySelector('.list-btn-remove');
   const listHeaderBtnLeft = list.querySelector('.js-btn-lft');
@@ -179,6 +184,7 @@ const saveListToArray = (list) => {
   let listObj = {};
   listObj.title = list.querySelector('.app-list-input').value;
   listObj.id = list.id;
+  listObj.cards = []
 
   listArray.push(listObj);
   setListToLocal();
@@ -188,13 +194,11 @@ const addNewList = e => {
   const listName = newListName.value;
   if (listName !== '') {
     toggleNewList();
-    resetListName();
     updateListCounter();
-    // saveListToArray(createListDOM(listName, listCounter));
     saveListToArray(createListDOM(listName, listCounter));
     removeSidesBtns();
   }
 }
 
-newListBtns.forEach(btn => btn.addEventListener('click', toggleNewList));
+newListBtns.forEach(btn => btn.addEventListener('click', listName));
 createListBtn.addEventListener('click', addNewList);
