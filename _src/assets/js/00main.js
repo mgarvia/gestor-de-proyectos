@@ -1,6 +1,6 @@
 'use strict';
 
-// import './const.js';
+// import dom from './modules/dom.js';
 // import './edit.js';
-// import './menu.js';
+// import menu from './menu.js';
 // import './listeners.js';

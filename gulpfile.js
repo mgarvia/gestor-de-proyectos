@@ -65,14 +65,12 @@ gulp.task('styles', function(done) {
 });
 
 // >> Concatenate JS files with sourcemaps
-gulp.task('scripts', function(done) {
+gulp.task('scripts', function (done) {
   gulp
     .src(config.js.src)
     .pipe(sourcemaps.init())
-    .pipe(
-      plumber({ errorHandler: notify.onError('Error: <%= error.message %>') })
-    )
-    .pipe(concat('main.js'))
+    .pipe(plumber({ errorHandler: notify.onError('Error: <%= error.message %>') }))
+    // .pipe(concat('main.js'))
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(config.js.dest))
     .pipe(browserSync.reload({ stream: true }));

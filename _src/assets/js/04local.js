@@ -1,38 +1,59 @@
 'use strict'
 
-const setListToLocal = () => {
-  localStorage.setItem('board', JSON.stringify(listArray));
-  localStorage.setItem('listCounter', JSON.stringify(listCounter));
-  localStorage.setItem('cardCounter', JSON.stringify(cardCounter));
+const setToLocal = () => {
+  const localObj = {
+    lists: listArray,
+    listCounter: listCounter,
+    cardCounter: cardCounter
+  }
+  localStorage.setItem('board', JSON.stringify(localObj));
 }
 
-const getListFromLocal = () => {
-  let createdLists = JSON.parse(localStorage.getItem('board'));
-  if (createdLists !== null) {
-    return createdLists;
+const getFromLocal = item => {
+  let board = JSON.parse(localStorage.getItem('board'));
+  if (board !== null) {
+    if (item === 'lists') {
+      return board.lists;
+    } else if (item === 'listCounter') {
+      return board.listCounter; 
+    } else {
+      return board.cardCounter;
+    }
+    
+  } else if (item === 'lists') {
+    return board = [];
   } else {
-    return createdLists = [];
+    return board = 0;
   }
 }
 
-const getListCounterFromLocal = () => {
-  let createdListsCounter = JSON.parse(localStorage.getItem('listCounter'));
-  if (createdListsCounter !== null) {
-    return createdListsCounter;
-  } else {
-    return createdListsCounter = 100;
-  }
-}
+// const getListFromLocal = () => {
+//   let board = JSON.parse(localStorage.getItem('board'));
+//   if (board !== null) {
+//     return board.lists;
+//   } else {
+//     return board = [];
+//   }
+// }
 
-const getCardCounterFromLocal = () => {
-  let createdCardCounter = JSON.parse(localStorage.getItem('cardCounter'));
-  if (createdCardCounter !== null) {
-    return createdCardCounter;
-  } else {
-    return createdCardCounter = 100;
-  }
-}
+// const getListCounterFromLocal = () => {
+//   let board = JSON.parse(localStorage.getItem('board'));
+//   if (board !== null) {
+//     return board.listCounter;
+//   } else {
+//     return board = 0;
+//   }
+// }
 
-let listArray = getListFromLocal();
-let listCounter = getListCounterFromLocal();
-let cardCounter = getCardCounterFromLocal();
+// const getCardCounterFromLocal = () => {
+//   let board = JSON.parse(localStorage.getItem('board'));
+//   if (board !== null) {
+//     return board.cardCounter;
+//   } else {
+//     return board = 0;
+//   }
+// }
+
+let listArray = getFromLocal('lists');
+let listCounter = getFromLocal('listCounter');
+let cardCounter = getFromLocal('cardCounter');

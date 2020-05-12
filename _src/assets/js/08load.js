@@ -1,7 +1,10 @@
 'use strict';
 
 const resetInnerHTML = item => item.innerHTML = '';
-const paintSavedLists = () => listArray.map(obj => list.innerHTML = createListDOM(obj.title, obj.id).innerHTML);
+const paintSavedLists = () => {
+  const list = document.createElement('div');
+  listArray.map(obj => list.innerHTML = createListDOM(obj.title, obj.id).innerHTML);
+}
 
 const paintSavedCards = () => {
   const lists = document.querySelectorAll('.app-list');

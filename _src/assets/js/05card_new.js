@@ -1,16 +1,14 @@
 'use strict';
 
-const findItem = (e, itemClass) => e.currentTarget.closest(itemClass);
+const newCardBtn = document.querySelector('.app-list-footer');
 
-const toggleNewCard = list => list.querySelectorAll('.js-card-new, .app-list-footer').forEach(area => area.classList.toggle('hidden'));
-const hideNameNewCard = e => toggleNewCard(findItem(e, '.app-list'));
 
-const updateCardCounter = () => cardCounter += 1;
+const hideNameNewCard = e => toggle(findItem(e, '.app-list').querySelectorAll('.js-card-new, .app-list-footer'));
 
 const nameNewCard = e => {
   const list = findItem(e, '.app-list');
   const input = list.querySelector('.js-card-name');
-  toggleNewCard(list);
+  toggle(list.querySelectorAll('.js-card-new, .app-list-footer'));
   resetInput(input);
 }
 
@@ -26,8 +24,13 @@ const createCardDOM = (title, id, cardsArea) => {
   tagsArea.setAttribute('class', 'js-tags-area');
 
   const cardTitle = document.createElement('h3');
-  cardTitle.setAttribute('class', 'card-title')
-  const cardTitleContent = document.createTextNode(title)
+  // cardTitle.setAttribute('class', 'card-title'); 
+  const cardTitleContent = document.createTextNode(title);
+
+  const cardInput = document.createElement('input');
+  cardInput.setAttribute('class', 'card-title hidden'); 
+  cardInput.setAttribute('value', title); 
+  
 
   const tasksArea = document.createElement('div');
   tasksArea.setAttribute('class', 'text-black-50');
@@ -55,6 +58,7 @@ const createCardDOM = (title, id, cardsArea) => {
   cardsArea.appendChild(card);
   card.appendChild(tagsArea);
   card.appendChild(cardTitle);
+  card.appendChild(cardInput);
   card.appendChild(tasksArea);
   card.appendChild(cardBtns);
 
@@ -389,7 +393,7 @@ const moveCard = (e, cardPosition) => {
       list.cards.splice(cardIndex + cardPosition, 0, cardObj);
     }
   }
-  setListToLocal();
+  setToLocal();
   handlePaintLists();
 }
 
@@ -398,29 +402,17 @@ const moveCardDown = e => moveCard(e, 1);
 
 const addNewCard = e => {
   const list = findItem(e, '.app-list');
-  const cardsArea = list.querySelector('.js-cards-area');
   const title = list.querySelector('.js-card-name').value;
-  const listCards = list.querySelector('.js-list-cards');
-  const listTitle = list.querySelector('.app-list-input').value;
+  const cardsArray = listArray.find(obj => obj.id === list.id).cards;
+  const cardsArea = list.querySelector('.js-cards-area');
+  const toggleArr = findItem(e, '.app-list').querySelectorAll('.js-card-new, .app-list-footer');
 
-  if (title !== '') {
-    updateCardCounter()
-    hideNameNewCard(e);
-    saveCardToArray(listCards, createCardDOM(title, cardCounter, cardsArea));
-    removeSidesBtns();
-  }
+  addNew(title, toggleArr, 'card', cardsArray, createCardDOM(title, cardCounter, cardsArea), '.card-title')
+
+  // if (title !== '') {
+  //   updateCounter('card')
+  //   toggle(findItem(e, '.app-list').querySelectorAll('.js-card-new, .app-list-footer'));
+  //   saveToArray(cardsArray, createCardDOM(title, cardCounter, cardsArea), '.card-title');
+  //   removeSidesBtns();
+  // }
 }
-
-const saveCardToArray = (list, card) => {
-  const mainList = list.parentElement.parentElement;
-  const currentList = listArray.find(obj => obj.id === mainList.id);
-
-  let cardObj = {};
-  cardObj.title = list.querySelector('.js-card-name').value;
-  cardObj.id = card.id;
-
-  currentList.cards.push(cardObj);
-  setListToLocal();
-}
-
-

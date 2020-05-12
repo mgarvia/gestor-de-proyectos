@@ -1,0 +1,1 @@
+// const updateListCounter = () => listCounter += 1;
